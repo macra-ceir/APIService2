@@ -58,12 +58,14 @@ public class ReportColumnDb implements Serializable{
 	private Integer columnOrder;
 	
 	@CreationTimestamp
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
+	//@JsonFormat(pattern="yyyy-MM-dd HH:mm")
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private LocalDateTime createdOn;
 
 
 	@UpdateTimestamp
-	@JsonFormat(pattern="yyyy-MM-dd HH:mm")
+	//@JsonFormat(pattern="yyyy-MM-dd HH:mm")
+	@JsonFormat(pattern="dd-MM-yyyy")
 	private LocalDateTime modifiedOn;
 	
 	private Integer typeFlag;
@@ -72,7 +74,15 @@ public class ReportColumnDb implements Serializable{
 	@JoinColumn(name="report_name_id",insertable = false, updatable = false)
 	@JsonIgnore
 	private ReportDb report;
-	
+
+	public Integer getTypeFlag() {
+		return typeFlag;
+	}
+
+	public void setTypeFlag(Integer typeFlag) {
+		this.typeFlag = typeFlag;
+	}
+
 	public Long getReport_column_id() {
 		return report_column_id;
 	}
@@ -81,19 +91,21 @@ public class ReportColumnDb implements Serializable{
 		this.report_column_id = report_column_id;
 	}
 
+	@Nonnull
 	public Long getReportnameId() {
 		return reportnameId;
 	}
 
-	public void setReportnameId(Long reportnameId) {
+	public void setReportnameId(@Nonnull Long reportnameId) {
 		this.reportnameId = reportnameId;
 	}
 
+	@Nonnull
 	public String getColumnName() {
 		return columnName;
 	}
 
-	public void setColumnName(String columnName) {
+	public void setColumnName(@Nonnull String columnName) {
 		this.columnName = columnName;
 	}
 
@@ -105,13 +117,13 @@ public class ReportColumnDb implements Serializable{
 		this.columnQuery = columnQuery;
 	}
 
-//	public Integer getReportColumnId() {
-//		return reportColumnId;
-//	}
-//
-//	public void setReportColumnId(Integer reportColumnId) {
-//		this.reportColumnId = reportColumnId;
-//	}
+	public String getOracleQuery() {
+		return oracleQuery;
+	}
+
+	public void setOracleQuery(String oracleQuery) {
+		this.oracleQuery = oracleQuery;
+	}
 
 	public Integer getSource() {
 		return source;
@@ -121,15 +133,22 @@ public class ReportColumnDb implements Serializable{
 		this.source = source;
 	}
 
+	@Nonnull
 	public String getHeaderName() {
 		return headerName;
 	}
 
-	public void setHeaderName(String headerName) {
+	public void setHeaderName(@Nonnull String headerName) {
 		this.headerName = headerName;
 	}
 
+	public String getInsertParameter() {
+		return insertParameter;
+	}
 
+	public void setInsertParameter(String insertParameter) {
+		this.insertParameter = insertParameter;
+	}
 
 	public Integer getColumnOrder() {
 		return columnOrder;
@@ -163,43 +182,22 @@ public class ReportColumnDb implements Serializable{
 		this.report = report;
 	}
 
-	public String getOracleQuery() {
-		return oracleQuery;
-	}
-
-	public void setOracleQuery(String oracleQuery) {
-		this.oracleQuery = oracleQuery;
-	}
-
-	public Integer getTypeFlag() {
-		return typeFlag;
-	}
-
-	public void setTypeFlag(Integer typeFlag) {
-		this.typeFlag = typeFlag;
-	}
-
-	public String getInsertParameter() {
-		return insertParameter;
-	}
-
-	public void setInsertParameter(String insertParameter) {
-		this.insertParameter = insertParameter;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
-
 	@Override
 	public String toString() {
-		return "ReportColumnDb [report_column_id=" + report_column_id + ", reportnameId=" + reportnameId
-				+ ", columnName=" + columnName + ", columnQuery=" + columnQuery + ", oracleQuery=" + oracleQuery
-				+ ", source=" + source + ", headerName=" + headerName + ", insertParameter=" + insertParameter
-				+ ", columnOrder=" + columnOrder + ", createdOn=" + createdOn + ", modifiedOn=" + modifiedOn
-				+ ", typeFlag=" + typeFlag + "]";
+		return "ReportColumnDb{" +
+				"report_column_id=" + report_column_id +
+				", reportnameId=" + reportnameId +
+				", columnName='" + columnName + '\'' +
+				", columnQuery='" + columnQuery + '\'' +
+				", oracleQuery='" + oracleQuery + '\'' +
+				", source=" + source +
+				", headerName='" + headerName + '\'' +
+				", insertParameter='" + insertParameter + '\'' +
+				", columnOrder=" + columnOrder +
+				", createdOn=" + createdOn +
+				", modifiedOn=" + modifiedOn +
+				", typeFlag=" + typeFlag +
+				", report=" + report +
+				'}';
 	}
-
-	
-	
 }

@@ -1098,7 +1098,7 @@ public class DatabaseTablesRepository {
 				logger.info("else reportTrend is  null {}", reportTrend);
         		columnDetails = reportColumnDbRepository.findByReportnameIdOrderByColumnOrderAsc( reportDb.getReportNameId() );
         	}
-        	logger.info("Report column details:["+columnDetails.toString()+"]");
+        	logger.info("Report column details 2:["+columnDetails.toString()+"]");
         	if( Objects.nonNull(filterRequest.getColumns()) ) {
 	        	for( String col : filterRequest.getColumns()) {
 	        		for( ReportColumnDb column : columnDetails) {
@@ -1230,9 +1230,19 @@ public class DatabaseTablesRepository {
 	            		for( int i = 1; i <= res.getMetaData().getColumnCount(); i++) {
 				        	if( !res.getMetaData().getColumnName(i).equalsIgnoreCase("RNUM") ) {
 					        	if( Objects.nonNull( res.getString(i) )) {
-					        		if( res.getMetaData().getColumnTypeName(i).equalsIgnoreCase("date") || res.getMetaData().getColumnTypeName(i).equalsIgnoreCase("Timestamp") )
-					        			row.put( res.getMetaData().getColumnName(i), this.formatedDate(res.getString(i)));
-					        		else
+									String columnValue = res.getString(i);
+									if (res.getMetaData().getColumnTypeName(i).equalsIgnoreCase("date") || res.getMetaData().getColumnTypeName(i).equalsIgnoreCase("Timestamp")){
+										if (columnValue.contains(".")) {
+											columnValue = columnValue.substring(0, columnValue.indexOf("."));
+										}
+										try {
+											LocalDateTime dateTime = LocalDateTime.parse(columnValue, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+											columnValue = dateTime.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+										} catch (Exception e) {
+											logger.error("Date parse error: {}", e.getMessage());
+										}
+										row.put(res.getMetaData().getColumnName(i), columnValue);
+								}else
 					        			row.put( res.getMetaData().getColumnName(i), res.getString(i));
 					        	}else {
 					        		row.put( res.getMetaData().getColumnName(i), "NA");
